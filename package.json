@@ -1,6 +1,0 @@
-{
-	"name": "minvp",
-	"dependencies": {
-		"eslint": "^9.10.0"
-	}
-}

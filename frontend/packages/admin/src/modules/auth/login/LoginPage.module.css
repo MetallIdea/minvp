@@ -1,0 +1,14 @@
+.self {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 48px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    max-width: 250px;
+}
