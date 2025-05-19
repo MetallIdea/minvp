@@ -9,6 +9,8 @@ export class TemplatesFormPageState {
 
     isDomOpen = false;
 
+    isNodeOpen = false;
+
     selectedNode?: TreeNode;
 
     constructor() {
@@ -19,12 +21,15 @@ export class TemplatesFormPageState {
         this.nodes = nodes;
     }
 
-    setIsDomOpen(isDomOpen:  boolean) {
-        this.isDomOpen = isDomOpen;
+    setIsDomOpen(value:  boolean) {
+        this.isDomOpen = value;
+    }
+
+    setIsNodeOpen(value:  boolean) {
+        this.isNodeOpen = value;
     }
 
     setSelectedNode(node: TreeNode) {
-        console.log(node);
         this.selectedNode = node;
     }
 

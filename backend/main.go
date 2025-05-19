@@ -6,9 +6,15 @@ import (
 	"netdesk/modules/data"
 	"os"
 	"time"
+
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	 err := godotenv.Load()
+  if err != nil {
+    log.Fatal("Error loading .env file")
+  }
 
 	httpPort := os.Getenv("API_PORT")
 	if httpPort == "" {

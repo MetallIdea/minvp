@@ -8,7 +8,7 @@ import { TemplatesFormPage } from './modules/templates/TemplatesFormPage/Templat
 export function App() {
   console.log(1);
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         

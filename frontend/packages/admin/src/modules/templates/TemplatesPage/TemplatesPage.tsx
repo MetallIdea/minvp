@@ -8,7 +8,7 @@ export const TemplatesPage = observer(() => {
 
     useEffect(() => {
         pageState.fetchItems();
-    });
+    }, []);
 
     return (
         <div>

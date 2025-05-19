@@ -9,6 +9,7 @@ import (
 	"netdesk/modules/roles"
 	"netdesk/modules/sites"
 	"netdesk/modules/users"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -16,7 +17,7 @@ import (
 func NewRouter() *gin.Engine {
 	// Set the router as the default one shipped with Gin
 	router := gin.Default()
-	expectedHost := "localhost:8080"
+	expectedHost := os.Getenv("EXPECTED_HOST")
 
 	// Setup Security Headers
 	router.Use(func(c *gin.Context) {

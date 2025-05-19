@@ -1,12 +1,18 @@
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv, type ConfigEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// https://vite.dev/config/
-export default defineConfig({
-  plugins: [react()],
-   server: {
-    proxy: {
-      '/api': 'http://localhost:8080',
-    },
-  }
-})
+export default (configEnv: ConfigEnv) => {
+  // Load app-level env vars to node-level env vars.
+  process.env = { ...process.env, ...loadEnv(configEnv.mode, process.cwd(), '') }
+
+  // https://vite.dev/config/
+  return defineConfig({
+    base: process.env.VITE_APP_BASE_URL,
+    plugins: [react()],
+    server: {
+      proxy: {
+        '/api': 'http://localhost:8080',
+      },
+    }
+  })
+}

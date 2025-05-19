@@ -10,5 +10,6 @@ type NdBlockTemplate struct {
 	Type string
 	UserId int
 	Css string
+	Props string
 	TemplateJSON string
 }

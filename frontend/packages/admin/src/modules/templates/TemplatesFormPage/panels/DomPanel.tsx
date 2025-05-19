@@ -7,8 +7,12 @@ import { Button } from "primereact/button";
 export const DomPanel = observer(() => {
     const pageState = useTemplatesFormPageContext();
 
-    const andleAddElement =  () => {
+    const handleAddElement =  () => {
         pageState.createElement();
+    }
+
+    const handleEditElement =  () => {
+        pageState.setIsNodeOpen(true);
     }
 
     const handleSelect = (e: TreeNodeClickEvent) => {
@@ -18,7 +22,8 @@ export const DomPanel = observer(() => {
     return (
         <Sidebar visible={pageState.isDomOpen} onHide={() => pageState.setIsDomOpen(false)}>
             <div>
-                <Button icon="pi pi-plus" onClick={andleAddElement} />
+                <Button icon="pi pi-plus" onClick={handleAddElement} />
+                <Button disabled={!pageState.selectedNode} icon="pi pi-pencil" onClick={handleEditElement} />
             </div>
             <Tree
                 value={pageState.nodes}

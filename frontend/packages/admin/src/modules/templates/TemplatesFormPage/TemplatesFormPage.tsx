@@ -1,10 +1,11 @@
 import { observer } from "mobx-react-lite";
 import { DomPanel } from "./panels/DomPanel";
-import { TemplatesNode } from "./TemplateNode";
 import { useTemplatesFormPageContext } from "./TemplatesFormPageState";
 import { useParams } from "react-router";
 import { useEffect } from "react";
 import { ActionsPanel } from "./panels/ActionsPanel";
+import { MarkupItem } from "../../../common/components/Markup/MarkupItem";
+import { NodePanel } from "./panels/NodePanel";
 
 export const TemplatesFormPage = observer(() => {
     const pageState = useTemplatesFormPageContext();
@@ -19,16 +20,16 @@ export const TemplatesFormPage = observer(() => {
 
     return (
         <div>
-            <DomPanel />
+            <ActionsPanel />
 
             <style>
                 {pageState.cssStyles}
             </style>
 
-            <ActionsPanel />
-
-{pageState.nodes.length > 0 ? <TemplatesNode node={pageState.nodes[0]} />: null }
+            {pageState.nodes.length > 0 ? <MarkupItem node={pageState.nodes[0]} />: null }
             
+            <DomPanel />
+            <NodePanel />
         </div>
     )
 });

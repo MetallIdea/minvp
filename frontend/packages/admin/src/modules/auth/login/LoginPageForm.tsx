@@ -1,11 +1,11 @@
 import { InputText } from 'primereact/inputtext';
 import styles from './LoginPageForm.module.css';
 
-import { FloatLabel } from "primereact/floatlabel";
 import { Button } from 'primereact/button';
 import { observer } from 'mobx-react-lite';
 import { useLoginPageContext } from './LoginPageState';
 import { useNavigate } from 'react-router';
+import { InputLabel } from '../../../common/components/formik/InputLabel/InputLabel';
 
 export const LoginPageForm = observer(() =>  {
     const loginPageState = useLoginPageContext();
@@ -24,21 +24,15 @@ export const LoginPageForm = observer(() =>  {
 
     return (
         <div className={styles.self}>
-            <div>
-                <FloatLabel>
-                    <InputText id="username" value={loginPageState.login} onChange={(e) => loginPageState.setLogin(e.target?.value)} />
-                    <label htmlFor="username">Логин</label>
-                </FloatLabel>
-            </div>
-            <div>
-                <FloatLabel>
-                    <InputText id="password" value={loginPageState.password} onChange={(e) => loginPageState.setPassword(e.target?.value)} />
-                    <label htmlFor="password">Пароль</label>
-                </FloatLabel>
-            </div>
-            <div>
-                <Button label='Войти' onClick={handleSubmit} />
-            </div>
+            <InputLabel id="username" label="Логин">
+                <InputText id="username" value={loginPageState.login} onChange={(e) => loginPageState.setLogin(e.target?.value)} />
+            </InputLabel>
+            
+            <InputLabel id="password" label="Пароль">
+                <InputText id="password" value={loginPageState.password} onChange={(e) => loginPageState.setPassword(e.target?.value)} />
+            </InputLabel>
+            
+            <Button label='Войти' onClick={handleSubmit} />
         </div>
     )
 });
