@@ -20,6 +20,9 @@ export function DefaultEditor({ props, onChangeProps }: Props) {
             <InputLabel id="className" label="Класс">
                 <InputText id="className" value={props['className']} onChange={handleChange('className')} />
             </InputLabel>
+            <InputLabel id="text" label="Текст">
+                <InputText id="text" value={props['text']} onChange={handleChange('text')} />
+            </InputLabel>
         </div>
     )
 }

@@ -1,6 +1,8 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { createContext, useContext } from "react";
-import type { BlockTemplate } from "./models";
+import { GET } from "../../../common/utils/requests";
+import type { BlockTemplate } from "../types";
+import type { PageResult } from "../../../common/types";
 
 export class TemplatesPageState {
     items: BlockTemplate[] = [];
@@ -10,8 +12,7 @@ export class TemplatesPageState {
     }
 
     async fetchItems() {
-        const response = await fetch('/api/block_templates');
-        const { Data } = await response.json();
+        const { Data } = await GET<PageResult<BlockTemplate>>('/api/block_templates');
 
         runInAction(() => {
             this.items = Data;

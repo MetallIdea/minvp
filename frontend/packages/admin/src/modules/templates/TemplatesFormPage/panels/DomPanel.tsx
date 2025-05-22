@@ -3,6 +3,8 @@ import { Sidebar } from 'primereact/Sidebar';
 import { Tree, type TreeNodeClickEvent } from 'primereact/Tree';
 import { useTemplatesFormPageContext } from "../TemplatesFormPageState";
 import { Button } from "primereact/button";
+import { InputTextarea } from 'primereact/inputtextarea';
+import type { ChangeEvent } from "react";
 
 export const DomPanel = observer(() => {
     const pageState = useTemplatesFormPageContext();
@@ -19,6 +21,10 @@ export const DomPanel = observer(() => {
         pageState.setSelectedNode(e.node);
     }
 
+    const handleCssChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        pageState.setSccStyles(e.target.value);
+    }
+
     return (
         <Sidebar visible={pageState.isDomOpen} onHide={() => pageState.setIsDomOpen(false)}>
             <div>
@@ -32,6 +38,9 @@ export const DomPanel = observer(() => {
                onNodeClick={handleSelect}
                className="w-full md:w-30rem" 
             />
+
+            <div>Css</div>
+            <InputTextarea value={pageState.cssStyles} onChange={handleCssChange} />
         </Sidebar>
     )
 });

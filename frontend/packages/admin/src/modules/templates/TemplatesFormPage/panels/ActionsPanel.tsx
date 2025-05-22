@@ -1,15 +1,19 @@
 import { observer } from "mobx-react-lite";
 import { Button } from "primereact/button";
 import { useTemplatesFormPageContext } from "../TemplatesFormPageState";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 export const ActionsPanel = observer(() => {
     const pageState = useTemplatesFormPageContext();
 
     const { id } = useParams();
+    const navigate = useNavigate();
 
-    const handleSave = () => {
-        pageState.saveItem(id !== 'new' ? Number(id) : undefined);
+    const handleSave = async () => {
+        const result = await pageState.saveItem(id !== 'new' ? Number(id) : undefined);
+        if (result.ID) {
+            navigate(`/templates/${result.ID}`);
+        }
     }
 
     const handleOpenMenu = () => {

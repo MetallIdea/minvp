@@ -26,8 +26,10 @@ export const TemplatesFormPage = observer(() => {
                 {pageState.cssStyles}
             </style>
 
-            {pageState.nodes.length > 0 ? <MarkupItem node={pageState.nodes[0]} />: null }
-            
+            <div>
+                {pageState.nodes.length > 0 ? <MarkupItem node={pageState.nodes[0]} />: null }
+            </div>
+
             <DomPanel />
             <NodePanel />
         </div>

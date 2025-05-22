@@ -1,36 +1,39 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import type { TreeNode } from "primereact/treenode";
 import { createContext, useContext } from "react";
+import { GET, POST } from "../../../common/utils/requests";
+import type { BlockTemplate } from "../types";
+import type { TreeNode } from "primereact/treenode";
 
 export class TemplatesFormPageState {
     nodes: TreeNode[] = [];
-
-    cssStyles = '';
-
-    isDomOpen = false;
-
-    isNodeOpen = false;
-
-    selectedNode?: TreeNode;
-
-    constructor() {
-        makeAutoObservable(this);
-    }
-
     setNodes(nodes: TreeNode[]) {
         this.nodes = nodes;
     }
 
+    cssStyles = '';
+    setSccStyles(value: string) {
+        this.cssStyles = value;
+    }
+
+    isDomOpen = false;
     setIsDomOpen(value:  boolean) {
         this.isDomOpen = value;
     }
 
+    isNodeOpen = false;
     setIsNodeOpen(value:  boolean) {
         this.isNodeOpen = value;
     }
 
+    selectedNode?: TreeNode;
     setSelectedNode(node: TreeNode) {
         this.selectedNode = node;
+    }
+
+    nextId = 0;
+
+    constructor() {
+        makeAutoObservable(this);
     }
 
     createElement() {
@@ -38,45 +41,43 @@ export class TemplatesFormPageState {
             this.selectedNode.children = this.selectedNode.children ?? [];
 
             this.selectedNode.children =  [...this.selectedNode.children, {
-                key: 0,
+                key: this.nextId,
                 label: 'div',
                 data: {
                     type: 'div',
+                    className: `div${this.nextId}`,
                 }
             }];
             this.nodes = [...this.nodes];
         } else {
             this.nodes =  [...this.nodes, {
-                key: 0,
+                key: this.nextId,
                 label: 'div',
                 data: {
                     type: 'div',
+                    className: `div${this.nextId}`,
                 }
             }];
         }
+        this.nextId++;
     }
 
     async fetchItem(id: number) {
-        const response = await fetch(`/api/block_templates/${id}`);
-        const { TemplateJSON, Css } = await response.json();
+        const { TemplateJSON, Css, NextId } = await GET<BlockTemplate>(`/api/block_templates/${id}`);
 
         runInAction(() => {
             this.nodes = JSON.parse(TemplateJSON);
             this.cssStyles = Css;
+            this.nextId = NextId ?? 0;
         });
     }
 
     async saveItem(id?: number) {
-        await fetch(`/api/block_templates`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body:  JSON.stringify({
-                ID: id,
-                TemplateJSON: JSON.stringify(this.nodes),
-                Css: this.cssStyles,
-            })
+        return await POST<BlockTemplate>(`/api/block_templates`, {
+            ID: id,
+            TemplateJSON: JSON.stringify(this.nodes),
+            Css: this.cssStyles,
+            NextId: this.nextId,
         });
     }
 }
