@@ -21,7 +21,7 @@ export async function POST<R = unknown, D = unknown>(url: string, data: D, optio
     return request<R>(url, {
         ...options,
         method: 'POST',
-        body: JSON.stringify(data),
+        body: typeof data === 'string' ? data : JSON.stringify(data),
     });
 }
 

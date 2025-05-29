@@ -1,11 +1,16 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { createContext, useContext } from "react";
-import { GET } from "../../../common/utils/requests";
+import { GET, POST } from "../../../common/utils/requests";
 import type { BlockTemplate } from "../types";
 import type { PageResult } from "../../../common/types";
 
 export class TemplatesPageState {
     items: BlockTemplate[] = [];
+
+    isExportVisible = false;
+    setIsExportVisible(value: boolean) {
+        this.isExportVisible = value;
+    }
 
     constructor() {
         makeAutoObservable(this);
@@ -17,6 +22,17 @@ export class TemplatesPageState {
         runInAction(() => {
             this.items = Data;
         });
+    }
+
+    async exportFile(file: File) {
+        if (!file) {
+            return;
+        }
+        var reader = new FileReader();
+        reader.onload = async (e) => {
+            await POST('/api/block_templates', e.target?.result);
+        };
+        reader.readAsText(file);
     }
 }
 

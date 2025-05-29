@@ -16,6 +16,10 @@ export const ActionsPanel = observer(() => {
         }
     }
 
+    const handleImport = async () => {
+        window.open(`/api/block_templates/${id}`)
+    }
+
     const handleOpenMenu = () => {
         pageState.setIsDomOpen(true);
     }
@@ -23,6 +27,7 @@ export const ActionsPanel = observer(() => {
     return (
         <div>
             <Button label="Сохранить" onClick={handleSave} />
+            <Button disabled={id==='new'} label="Импорт" onClick={handleImport} />
             <Button label="Меню" onClick={handleOpenMenu} />
         </div>
     )

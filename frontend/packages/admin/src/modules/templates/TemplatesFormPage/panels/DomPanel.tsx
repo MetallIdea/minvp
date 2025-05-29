@@ -5,6 +5,7 @@ import { useTemplatesFormPageContext } from "../TemplatesFormPageState";
 import { Button } from "primereact/button";
 import { InputTextarea } from 'primereact/inputtextarea';
 import type { ChangeEvent } from "react";
+import type { BlockTemplate } from "../../types";
 
 export const DomPanel = observer(() => {
     const pageState = useTemplatesFormPageContext();
@@ -22,7 +23,9 @@ export const DomPanel = observer(() => {
     }
 
     const handleCssChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        pageState.setSccStyles(e.target.value);
+        pageState.setItem({
+            Css: e.target.value,
+        } as BlockTemplate);
     }
 
     return (

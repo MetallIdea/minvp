@@ -5,14 +5,17 @@ import type { BlockTemplate } from "../types";
 import type { TreeNode } from "primereact/treenode";
 
 export class TemplatesFormPageState {
+    item?: BlockTemplate;
+    setItem(value: BlockTemplate) {
+        this.item = {
+            ...this.item,
+            ...value,
+        }
+    }
+
     nodes: TreeNode[] = [];
     setNodes(nodes: TreeNode[]) {
         this.nodes = nodes;
-    }
-
-    cssStyles = '';
-    setSccStyles(value: string) {
-        this.cssStyles = value;
     }
 
     isDomOpen = false;
@@ -63,22 +66,21 @@ export class TemplatesFormPageState {
     }
 
     async fetchItem(id: number) {
-        const { TemplateJSON, Css, NextId } = await GET<BlockTemplate>(`/api/block_templates/${id}`);
+        const result = await GET<BlockTemplate>(`/api/block_templates/${id}`);
 
         runInAction(() => {
-            this.nodes = JSON.parse(TemplateJSON);
-            this.cssStyles = Css;
-            this.nextId = NextId ?? 0;
+            this.item = result;
+            this.nodes = JSON.parse(result.TemplateJSON);
         });
     }
 
     async saveItem(id?: number) {
-        return await POST<BlockTemplate>(`/api/block_templates`, {
-            ID: id,
-            TemplateJSON: JSON.stringify(this.nodes),
-            Css: this.cssStyles,
-            NextId: this.nextId,
-        });
+        return await POST<BlockTemplate>(`/api/block_templates`, [
+            {
+                ...this.item,
+                TemplateJSON: JSON.stringify(this.nodes),
+            }
+        ]);
     }
 }
 

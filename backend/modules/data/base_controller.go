@@ -50,7 +50,7 @@ func GetById[T interface{}](c *gin.Context) {
 }
 
 func Save[T interface{}](c *gin.Context) {
-	var newData T
+	var newData []T
 	c.Bind(&newData)
 
 	result := DB.Save(&newData)

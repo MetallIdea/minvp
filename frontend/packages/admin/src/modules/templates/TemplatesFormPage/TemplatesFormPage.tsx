@@ -23,7 +23,7 @@ export const TemplatesFormPage = observer(() => {
             <ActionsPanel />
 
             <style>
-                {pageState.cssStyles}
+                {pageState.item?.Css}
             </style>
 
             <div>
