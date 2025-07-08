@@ -18,6 +18,14 @@ export const DomPanel = observer(() => {
         pageState.setIsNodeOpen(true);
     }
 
+    const handleMoveTopElement =  () => {
+        pageState.moveTop();
+    }
+
+    const handleMoveDownElement =  () => {
+        pageState.moveDown();
+    }
+
     const handleSelect = (e: TreeNodeClickEvent) => {
         pageState.setSelectedNode(e.node);
     }
@@ -33,7 +41,10 @@ export const DomPanel = observer(() => {
             <div>
                 <Button icon="pi pi-plus" onClick={handleAddElement} />
                 <Button disabled={!pageState.selectedNode} icon="pi pi-pencil" onClick={handleEditElement} />
+               <Button disabled={!pageState.selectedNode} icon="pi pi-arrow-up" onClick={handleMoveTopElement} />
+                <Button disabled={!pageState.selectedNode} icon="pi pi-arrow-down" onClick={handleMoveDownElement} />
             </div>
+
             <Tree
                 value={pageState.nodes}
                 dragdropScope="dom"
@@ -43,7 +54,7 @@ export const DomPanel = observer(() => {
             />
 
             <div>Css</div>
-            <InputTextarea value={pageState.cssStyles} onChange={handleCssChange} />
+            <InputTextarea value={pageState.item?.Css} onChange={handleCssChange} />
         </Sidebar>
     )
 });

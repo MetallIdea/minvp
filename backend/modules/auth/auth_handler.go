@@ -11,14 +11,13 @@ func AuthHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		cookie, err1 := c.Cookie("user")
 		if (err1 != nil) {
-			log.Print(err1)
 			c.Next()
 			return
 		}
 
 		claims, err2 := GetClaimsFromJWT(cookie)
 		if (err2 != nil)  {
-			log.Print(err2)
+			log.Printf("Wrong jwt cookie %s", err2)
 			c.Next()
 			return
 		}

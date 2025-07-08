@@ -29,3 +29,15 @@ func getByFilter(params *GetByFilterParams) *data.GetAllResult[NdSite] {
 		TotalCount: count,
 	}
 }
+
+func GetById(id uint) *NdSite {
+	var site NdSite
+
+	result := data.DB.Where("id = ?", id).First(&site)
+	
+	if result.Error == nil {
+		return &site
+	} else {
+		return nil
+	}
+}

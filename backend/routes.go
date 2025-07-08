@@ -8,6 +8,7 @@ import (
 	"netdesk/modules/permissions"
 	"netdesk/modules/roles"
 	"netdesk/modules/sites"
+	"netdesk/modules/tables"
 	"netdesk/modules/users"
 	"os"
 
@@ -46,6 +47,7 @@ func NewRouter() *gin.Engine {
 		files.InitModule(api)
 		sites.InitModule(api)
 		block_templates.InitModule(api);
+		tables.InitModule(api);
 	}
 
 	return router

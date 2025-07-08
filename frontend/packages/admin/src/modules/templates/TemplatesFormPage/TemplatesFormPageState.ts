@@ -3,6 +3,7 @@ import { createContext, useContext } from "react";
 import { GET, POST } from "../../../common/utils/requests";
 import type { BlockTemplate } from "../types";
 import type { TreeNode } from "primereact/treenode";
+import { moveNodeToDown, moveNodeToTop } from "../../../common/utils/tree";
 
 export class TemplatesFormPageState {
     item?: BlockTemplate;
@@ -65,6 +66,16 @@ export class TemplatesFormPageState {
         this.nextId++;
     }
 
+    moveTop() {
+        moveNodeToTop(this.nodes, this.selectedNode);
+        this.nodes = [...this.nodes];
+    }
+
+    moveDown() {
+        moveNodeToDown(this.nodes, this.selectedNode);
+        this.nodes = [...this.nodes];
+    }
+
     async fetchItem(id: number) {
         const result = await GET<BlockTemplate>(`/api/block_templates/${id}`);
 
@@ -74,7 +85,7 @@ export class TemplatesFormPageState {
         });
     }
 
-    async saveItem(id?: number) {
+    async saveItem() {
         return await POST<BlockTemplate>(`/api/block_templates`, [
             {
                 ...this.item,
