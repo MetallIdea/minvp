@@ -3,6 +3,8 @@ import { TablesActions } from "./TablesActions";
 import { useTablesPageContext } from "./TablesPageState";
 import { useEffect } from "react";
 import { Link } from "react-router";
+import { Button } from "primereact/button";
+import { TableItem } from "./TableItem";
 
 export const TablesPage = observer(() => {
     const page = useTablesPageContext();
@@ -17,9 +19,7 @@ export const TablesPage = observer(() => {
 
             <div>
                 {page.tables.map((table) => (
-                    <div>
-                        <Link to={`/tables/${table.ID}`}>{table.Name}</Link>
-                    </div>
+                    <TableItem table={table} />
                 ))}
             </div>
         </div>

@@ -82,10 +82,11 @@ func delete(c *gin.Context) {
 }
 
 func saveField(c *gin.Context) {
+	id, _ := utils.ParseUint(c.Param("id"))
 	var newData NdField
 	c.Bind(&newData)
 
-	table, err := GetTableById(newData.TableID)
+	table, err := GetTableById(id)
 
 	if err != nil {
 		c.Status(http.StatusNotFound)
@@ -99,6 +100,8 @@ func saveField(c *gin.Context) {
 		c.Status(http.StatusInternalServerError)
 		return
 	}
+
+	newData.TableID = table.ID;
 
 	result := data.DB.Save(&newData)
 	

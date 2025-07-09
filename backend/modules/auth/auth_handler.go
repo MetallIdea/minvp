@@ -24,8 +24,7 @@ func AuthHandler() gin.HandlerFunc {
 
 		var user data.NdUser
 		data.DB.Model(data.NdUser{}).Preload("Roles").First(&user, claims["id"])
-		
-		log.Print(user, claims["id"]);
+
 		c.Set("user", &user)
 
 		c.Next()

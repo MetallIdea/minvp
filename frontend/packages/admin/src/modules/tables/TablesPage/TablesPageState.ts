@@ -1,6 +1,6 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import type { PageResult } from "../../../common/types";
-import { GET } from "../../../common/utils/requests";
+import { DELETE, GET } from "../../../common/utils/requests";
 import type { NdTable } from "../types";
 import { createContext, useContext } from "react";
 
@@ -18,7 +18,16 @@ export class TablesPageState {
             this.tables = Data;
         });
     }
+    
+    async deleteTable({ id }: {
+        id: number
+    }) {
+        await DELETE(`/api/tables/${id}`);
+
+        await this.fetchItems();
+    }
 }
+
 export const TablesPageContext = createContext(new TablesPageState());
 
 export function useTablesPageContext() {
