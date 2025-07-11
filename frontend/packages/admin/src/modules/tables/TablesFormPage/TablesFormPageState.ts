@@ -14,7 +14,7 @@ export class TablesFormPageState {
     table?: NdTable;
 
     editField?: Partial<NdField>;
-    setEditField(field: Partial<NdField>) {
+    setEditField(field?: Partial<NdField>) {
         this.editField = field;
     }
 

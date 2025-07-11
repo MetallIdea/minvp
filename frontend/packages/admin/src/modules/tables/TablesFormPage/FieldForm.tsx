@@ -35,6 +35,7 @@ export const FieldForm = observer(({ field }: Props) => {
 
     const handleSave = () => {
         page.saveField({ field });
+        page.setEditField(undefined)
     }
 
     const isEdit = page.editField?.ID === field.ID;
@@ -48,22 +49,23 @@ export const FieldForm = observer(({ field }: Props) => {
                 {isEdit ? <InputText onChange={handleChangeType} value={field.Type} /> : field.Type}
             </div>
             <div>
-                {field.ID ? 
+                {field.ID ?
                     <>
-                    <Button
-                    onClick={handleEdit}
-                    label="Редактировать"
-                />
-                    <Button
-                    onClick={handleDelete}
-                    label="Удалить"
-                />
+                        <Button
+                            onClick={handleEdit}
+                            label="Редактировать"
+                        />
+                        <Button
+                            onClick={handleDelete}
+                            label="Удалить"
+                        />
                     </>
-                : 
+                    :
                     <Button
-                    onClick={handleSave}
-                    label="Сохранить"
-                />}
+                        type="button"
+                        onClick={handleSave}
+                        label="Сохранить"
+                    />}
             </div>
         </div>
     )

@@ -94,6 +94,8 @@ func saveField(c *gin.Context) {
 		c.Status(http.StatusNotFound)
 	}
 
+	fmt.Print(table.SiteID)
+
 	site := sites.GetById(table.SiteID)
 
 	resultCreate := AddField(site.Name, table.Name, newData.Name, newData.Type)
