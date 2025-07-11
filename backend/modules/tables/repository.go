@@ -8,7 +8,7 @@ import (
 )
 
 func CreateTable(prefix string, name string) *gorm.DB {
-	return data.DB.Exec(fmt.Sprintf("CREATE TABLE \"%s_%s\" (id bigint NOT NULL,  PRIMARY KEY (id))", prefix, prefix))
+	return data.DB.Exec(fmt.Sprintf("CREATE TABLE \"%s_%s\" (id bigint NOT NULL,  PRIMARY KEY (id))", prefix, name))
 }
 
 func DropTable(prefix string, name string) *gorm.DB {

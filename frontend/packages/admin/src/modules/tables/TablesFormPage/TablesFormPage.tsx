@@ -2,26 +2,30 @@ import { observer } from "mobx-react-lite";
 import { TablesFormActions } from "./TablesFormActions";
 import { useTablesFormPageContext } from "./TablesFormPageState";
 import { useEffect } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
+import { TablesFormFields } from "./TablesFormFields";
+import { NDForm } from "../../../common/components/formik/NDForm/NDForm";
 import { Button } from "primereact/button";
-import { FieldForm } from "./FieldForm";
 
 export const TablesFormPage = observer(() => {
     const page = useTablesFormPageContext();
 
     const { id } = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (id && id !== 'new') {
-            page.fetchItem({ id:  parseInt(id) });
+            page.fetchItem({ id: parseInt(id) });
         }
-    }, []);
+    }, [id]);
 
-    const handleDelete = (id: number) => async () => {
-        await page.deleteField({ id });
+    const handleSubmit = async (values) => {
+        await page.saveTable({ table: values });
+
+        navigate(`/tables/${page.table?.ID}`);
     }
 
-    if (!page.table) {
+    if (id !== 'new' && !page.table) {
         return <div>
             Not found
         </div>
@@ -31,19 +35,11 @@ export const TablesFormPage = observer(() => {
         <div>
             <TablesFormActions />
 
-            <div>
-                <div>{page.table.Name}</div>
-                <div>
-                    {page.table.Fields.map((field) => (
-                        <FieldForm field={field} />
-                    ))}
+            <NDForm initialValues={page.table ?? page.emptyTable} onSubmit={handleSubmit}>
+                <TablesFormFields />
 
-                    {
-                        page.editField && page.editField.ID === undefined ? 
-                        <FieldForm field={page.editField} /> : null
-                    }
-                </div>
-            </div>
+                <Button type="submit" label="Сохранить" />
+            </NDForm>
         </div>
     )
 });

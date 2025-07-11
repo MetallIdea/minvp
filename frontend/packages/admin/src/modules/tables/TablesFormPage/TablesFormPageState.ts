@@ -5,6 +5,12 @@ import type { NdField, NdTable } from "../types";
 import { createContext, useContext } from "react";
 
 export class TablesFormPageState {
+    emptyTable: NdTable = {
+        ID: 0,
+        Name: '',
+        Fields: [],
+    };
+
     table?: NdTable;
 
     editField?: Partial<NdField>;
@@ -24,11 +30,14 @@ export class TablesFormPageState {
         });
     }
 
-    async saveTable() {
-        const table = await GET<NdTable>('`/api/tables`');
+    async saveTable({ table }: {table: NdTable}) {
+        const result = await POST<NdTable>('/api/tables', {
+            SiteID: 1,
+            ...table,
+        });
 
         runInAction(() => {
-            this.table = table;
+            this.table = result;
         });
     }
     

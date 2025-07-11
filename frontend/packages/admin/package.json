@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@types/node": "^22.15.19",
+    "formik": "^2.4.6",
     "mobx": "^6.13.7",
     "mobx-react-lite": "^4.1.0",
     "primeicons": "^7.0.0",

@@ -40,11 +40,13 @@ func save(c *gin.Context) {
 
 	site := sites.GetById(newData.SiteID)
 
-	resultCreate := CreateTable(site.Name, newData.Name)
+	if (newData.ID == 0) {
+		resultCreate := CreateTable(site.Name, newData.Name)
 
-	if resultCreate.Error != nil {
-		c.Status(http.StatusInternalServerError)
-		return
+		if resultCreate.Error != nil {
+			c.Status(http.StatusInternalServerError)
+			return
+		}
 	}
 
 	result := data.DB.Save(&newData)
