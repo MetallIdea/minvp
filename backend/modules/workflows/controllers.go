@@ -1,9 +1,8 @@
-package tables
+package workflows
 
 import (
 	"net/http"
 	"netdesk/modules/data"
-	"netdesk/modules/sites"
 	"netdesk/utils"
 	"strconv"
 
@@ -16,14 +15,14 @@ type GetAllParams struct {
 }
 
 type GetAllResult struct {
-	Data       []NdTable
+	Data       []NdWorkflow
 	TotalCount int64
 }
 
 func getById(c *gin.Context) {
 	id, _ := utils.ParseUint(c.Param("id"))
 
-	table, err := GetTableById(id)
+	table, err := GetWorkflowById(id)
 
 	if err == nil {
 		c.JSON(http.StatusOK, table)
@@ -33,19 +32,8 @@ func getById(c *gin.Context) {
 }
 
 func save(c *gin.Context) {
-	var newData NdTable
+	var newData NdWorkflow
 	c.Bind(&newData)
-
-	site := sites.GetById(newData.SiteID)
-
-	if (newData.ID == 0) {
-		resultCreate := CreateTable(site.Name, newData.Name)
-
-		if resultCreate.Error != nil {
-			c.Status(http.StatusInternalServerError)
-			return
-		}
-	}
 
 	result := data.DB.Save(&newData)
 	
@@ -59,20 +47,7 @@ func save(c *gin.Context) {
 func delete(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 
-	var table NdTable
-
-	resultTable := data.DB.Where("id = ?", id).First(&table)
-
-	if resultTable.Error != nil {
-		c.Status(http.StatusNotFound)
-		return
-	}
-
-	site := sites.GetById(table.SiteID)
-
-	DropTable(site.Name, table.Name)
-
-	result := data.DB.Where("id = ?", id).Delete(&NdTable{})
+	result := data.DB.Where("id = ?", id).Delete(&NdWorkflow{})
 	
 	if result.Error == nil {
 		c.Status(http.StatusOK)
@@ -81,27 +56,12 @@ func delete(c *gin.Context) {
 	}
 }
 
-func saveField(c *gin.Context) {
+func saveAction(c *gin.Context) {
 	id, _ := utils.ParseUint(c.Param("id"))
-	var newData NdField
+	var newData NdWorkflowAction
 	c.Bind(&newData)
 
-	table, err := GetTableById(id)
-
-	if err != nil {
-		c.Status(http.StatusNotFound)
-	}
-
-	site := sites.GetById(table.SiteID)
-
-	resultCreate := AddField(site.Name, table.Name, newData.Name, newData.Type)
-
-	if resultCreate.Error != nil {
-		c.Status(http.StatusInternalServerError)
-		return
-	}
-
-	newData.TableID = table.ID;
+	newData.WorkflowID = id;
 
 	result := data.DB.Save(&newData)
 	

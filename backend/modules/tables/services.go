@@ -1,6 +1,10 @@
 package tables
 
-import "netdesk/modules/data"
+import (
+	"netdesk/modules/data"
+
+	"gorm.io/gorm"
+)
 
 func GetTableById(id uint) (*NdTable, error) {
 	var table NdTable
@@ -12,4 +16,12 @@ func GetTableById(id uint) (*NdTable, error) {
 	} 
 	
 	return nil, result.Error
+}
+
+func CreateItem(siteName string, table NdTable, item map[string]interface{}) *gorm.DB {
+	return InsertItem(siteName, table.Name, item)
+}
+
+func GetItems(siteName string, table NdTable, params SelectItemsParams) SelectItemsResult {
+	return SelectItems(siteName, table.Name, params)
 }

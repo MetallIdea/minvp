@@ -5,11 +5,13 @@ import (
 	"netdesk/modules/auth"
 	"netdesk/modules/block_templates"
 	"netdesk/modules/files"
+	"netdesk/modules/invest"
 	"netdesk/modules/permissions"
 	"netdesk/modules/roles"
 	"netdesk/modules/sites"
 	"netdesk/modules/tables"
 	"netdesk/modules/users"
+	"netdesk/modules/workflows"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -48,6 +50,8 @@ func NewRouter() *gin.Engine {
 		sites.InitModule(api)
 		block_templates.InitModule(api);
 		tables.InitModule(api);
+		workflows.InitModule(api);
+		invest.InitModule();
 	}
 
 	return router
