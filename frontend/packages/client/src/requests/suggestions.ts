@@ -8,8 +8,8 @@ type Params = {
     page?: number;
 }
 
-export async function getAllBonds({ where, order, limit, page }: Params = {}) {
-    return await get<{ Data: any[] }>(`${BACK_URL}/api/bonds`, {
+export async function getAllSuggestions({ where, order, limit, page }: Params = {}) {
+    return await get<{ Data: any[] }>(`${BACK_URL}/api/suggestions`, {
         query: {
             where,
             order,
